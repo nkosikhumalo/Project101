@@ -14,7 +14,7 @@ public class Ingredient {
         name = json.optString("name");
         unit = json.optString("unit");
         quantity = json.optDouble("quantity");
-        expiry = json.optString("expiry_date", "");
+        expiry = json.isNull("expiry_date") ? "" : json.optString("expiry_date", "");
     }
 
     public String label() {

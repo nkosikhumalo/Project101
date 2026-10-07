@@ -1,0 +1,8 @@
+.gradle/
+.idea/
+build/
+app/build/
+local.properties
+backend/smartpantry
+backend/.gradle/
+backend/build/

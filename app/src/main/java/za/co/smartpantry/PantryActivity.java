@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -16,12 +17,18 @@ public class PantryActivity extends BaseActivity {
     public void onCreate(Bundle state) {
         super.onCreate(state);
         startScreen("My Pantry");
-        content.addView(text("Keep track of what you have at home.", 16, false));
+        content.addView(text(
+                "Keep track of what you have at home. Tap an ingredient to edit or delete it.",
+                16,
+                false));
         button("＋  Add ingredient", () ->
                 startActivity(new Intent(this, IngredientFormActivity.class)));
 
+        TextView empty = text("Loading your pantry…", 16, false);
+        content.addView(empty);
         list = new ListView(this);
         adapter = new PantryAdapter(this, items);
+        list.setEmptyView(empty);
         list.setAdapter(adapter);
         content.addView(list, new LinearLayout.LayoutParams(-1, -2));
         list.setOnItemClickListener((parent, view, position, id) ->
@@ -39,7 +46,8 @@ public class PantryActivity extends BaseActivity {
     private void loadPantry() {
         Api.request("GET", "/pantry", null, (data, error) -> {
             if (error != null) {
-                message("Could not load pantry. Check the API server address in Api.java.\n\n"
+                emptyMessage("Pantry unavailable. Check the server connection and return to retry.");
+                message("Could not connect to the pantry server. Make sure ./run.sh is running.\n\n"
                         + error);
                 return;
             }
@@ -53,7 +61,16 @@ public class PantryActivity extends BaseActivity {
                 }
             }
             adapter.refresh();
+            if (items.isEmpty()) {
+                emptyMessage("Your pantry is empty. Add an ingredient to get started.");
+            }
         });
+    }
+
+    private void emptyMessage(String value) {
+        if (list != null && list.getEmptyView() instanceof android.widget.TextView) {
+            ((android.widget.TextView) list.getEmptyView()).setText(value);
+        }
     }
 
     private void showItemActions(Ingredient ingredient) {

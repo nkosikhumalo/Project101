@@ -11,7 +11,9 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.ConnectException;
 import java.net.HttpURLConnection;
+import java.net.NoRouteToHostException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.concurrent.ExecutorService;
@@ -27,6 +29,7 @@ public final class Api {
 
     private static final ExecutorService REQUESTS = Executors.newSingleThreadExecutor();
     private static final Handler MAIN_THREAD = new Handler(Looper.getMainLooper());
+    private static final int MAX_ATTEMPTS = 3;
 
     private Api() {
     }
@@ -36,44 +39,64 @@ public final class Api {
             JSONArray result = null;
             String error = null;
 
-            try {
-                HttpURLConnection connection =
-                        (HttpURLConnection) new URL(BASE + path).openConnection();
-                connection.setRequestMethod(method);
-                connection.setConnectTimeout(5000);
-                connection.setReadTimeout(7000);
-                connection.setRequestProperty("Accept", "application/json");
+            for (int attempt = 1; attempt <= MAX_ATTEMPTS; attempt++) {
+                try {
+                    HttpURLConnection connection =
+                            (HttpURLConnection) new URL(BASE + path).openConnection();
+                    connection.setRequestMethod(method);
+                    connection.setConnectTimeout(5000);
+                    connection.setReadTimeout(7000);
+                    connection.setRequestProperty("Accept", "application/json");
 
-                if (body != null) {
-                    connection.setDoOutput(true);
-                    connection.setRequestProperty("Content-Type", "application/json");
-                    try (OutputStream output = connection.getOutputStream()) {
-                        output.write(body.toString().getBytes(StandardCharsets.UTF_8));
+                    if (body != null) {
+                        connection.setDoOutput(true);
+                        connection.setRequestProperty("Content-Type", "application/json");
+                        try (OutputStream output = connection.getOutputStream()) {
+                            output.write(body.toString().getBytes(StandardCharsets.UTF_8));
+                        }
+                    }
+
+                    int status = connection.getResponseCode();
+                    InputStream input = status < 400
+                            ? connection.getInputStream()
+                            : connection.getErrorStream();
+                    String response = readText(input);
+                    connection.disconnect();
+
+                    if (status >= 400) {
+                        throw new IOException("Server returned " + status + ": " + response);
+                    }
+
+                    result = parseResponse(response);
+                    error = null;
+                    break;
+                } catch (Exception exception) {
+                    error = exception.getMessage() == null
+                            ? "Unable to connect to pantry server"
+                            : exception.getMessage();
+                    if (attempt == MAX_ATTEMPTS || !isTransient(exception)) {
+                        break;
+                    }
+                    try {
+                        Thread.sleep(500L * attempt);
+                    } catch (InterruptedException interrupted) {
+                        Thread.currentThread().interrupt();
+                        error = "Request interrupted";
+                        break;
                     }
                 }
-
-                int status = connection.getResponseCode();
-                InputStream input = status < 400
-                        ? connection.getInputStream()
-                        : connection.getErrorStream();
-                String response = readText(input);
-
-                if (status >= 400) {
-                    throw new IOException("Server returned " + status + ": " + response);
-                }
-
-                result = parseResponse(response);
-                connection.disconnect();
-            } catch (Exception exception) {
-                error = exception.getMessage() == null
-                        ? "Unable to connect to pantry server"
-                        : exception.getMessage();
             }
 
             JSONArray responseData = result;
             String responseError = error;
             MAIN_THREAD.post(() -> done.call(responseData, responseError));
         });
+    }
+
+    private static boolean isTransient(Exception exception) {
+        return exception instanceof ConnectException
+                || exception instanceof NoRouteToHostException
+;
     }
 
     private static String readText(InputStream input) throws IOException {

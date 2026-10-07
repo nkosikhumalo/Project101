@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -26,6 +27,14 @@ public class BaseActivity extends Activity {
         page = new LinearLayout(this);
         page.setOrientation(LinearLayout.VERTICAL);
         page.setBackgroundColor(cream);
+        page.setOnApplyWindowInsetsListener((view, insets) -> {
+            view.setPadding(
+                    view.getPaddingLeft(),
+                    insets.getSystemWindowInsetTop(),
+                    view.getPaddingRight(),
+                    insets.getSystemWindowInsetBottom());
+            return insets;
+        });
         setContentView(page);
 
         TextView titleBar = new TextView(this);
@@ -34,22 +43,23 @@ public class BaseActivity extends Activity {
         titleBar.setTextSize(22);
         titleBar.setTypeface(null, Typeface.BOLD);
         titleBar.setBackgroundColor(ink);
-        titleBar.setPadding(18, 20, 18, 20);
+        titleBar.setPadding(dp(18), dp(20), dp(18), dp(20));
         page.addView(titleBar);
 
         ScrollView scroll = new ScrollView(this);
         page.addView(scroll, new LinearLayout.LayoutParams(-1, 0, 1));
 
         content = new LinearLayout(this);
-        content.setPadding(18, 16, 18, 16);
+        content.setPadding(dp(18), dp(16), dp(18), dp(16));
         content.setOrientation(LinearLayout.VERTICAL);
         scroll.addView(content);
 
         LinearLayout navigation = new LinearLayout(this);
         navigation.setBackgroundColor(Color.WHITE);
+        navigation.setGravity(Gravity.CENTER_VERTICAL);
         page.addView(navigation);
         addNavigationButton(navigation, "Pantry", PantryActivity.class);
-        addNavigationButton(navigation, "Recipes", SuggestionsActivity.class);
+        addNavigationButton(navigation, "Recipes", RecipeCollectionActivity.class);
         addNavigationButton(navigation, "Settings", SettingsActivity.class);
     }
 
@@ -58,7 +68,14 @@ public class BaseActivity extends Activity {
         button.setText(label);
         button.setAllCaps(false);
         button.setTextColor(green);
-        row.addView(button, new LinearLayout.LayoutParams(0, 56, 1));
+        button.setTextSize(16);
+        button.setMinWidth(0);
+        button.setMinHeight(dp(56));
+        button.setMaxLines(1);
+        button.setPadding(dp(6), 0, dp(6), 0);
+        button.setBackgroundTintList(
+                android.content.res.ColorStateList.valueOf(Color.WHITE));
+        row.addView(button, new LinearLayout.LayoutParams(0, dp(64), 1));
         button.setOnClickListener(view -> startActivity(new Intent(this, screen)));
     }
 
@@ -81,9 +98,18 @@ public class BaseActivity extends Activity {
         button.setTextColor(Color.WHITE);
         button.setBackgroundTintList(
                 android.content.res.ColorStateList.valueOf(green));
-        content.addView(button);
+        button.setTextSize(18);
+        button.setMinHeight(dp(60));
+        button.setPadding(dp(16), dp(10), dp(16), dp(10));
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(-1, -2);
+        params.bottomMargin = dp(8);
+        content.addView(button, params);
         button.setOnClickListener(view -> action.run());
         return button;
+    }
+
+    private int dp(int value) {
+        return Math.round(value * getResources().getDisplayMetrics().density);
     }
 
     void message(String value) {

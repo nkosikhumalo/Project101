@@ -1,0 +1,12 @@
+CREATE TABLE IF NOT EXISTS pantry_items (
+ id BIGSERIAL PRIMARY KEY, name TEXT NOT NULL, quantity NUMERIC(12,3) NOT NULL CHECK(quantity > 0),
+ unit TEXT NOT NULL, expiry_date DATE, updated_at TIMESTAMPTZ NOT NULL DEFAULT now()
+);
+CREATE TABLE IF NOT EXISTS recipes (
+ id BIGSERIAL PRIMARY KEY, name TEXT NOT NULL UNIQUE, steps TEXT NOT NULL,
+ ingredients JSONB NOT NULL CHECK(jsonb_typeof(ingredients) = 'array')
+);
+CREATE TABLE IF NOT EXISTS app_settings (
+ id INTEGER PRIMARY KEY CHECK(id=1), expiry_alerts BOOLEAN NOT NULL DEFAULT TRUE
+);
+INSERT INTO app_settings(id) VALUES(1) ON CONFLICT DO NOTHING;

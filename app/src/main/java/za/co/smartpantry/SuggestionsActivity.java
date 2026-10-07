@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
-import org.json.JSONArray;
 
 import java.util.ArrayList;
 
@@ -16,7 +15,7 @@ public class SuggestionsActivity extends BaseActivity {
     @Override
     public void onCreate(Bundle state) {
         super.onCreate(state);
-        startScreen("Recipes You Can Make");
+        startScreen("Suggested Recipes");
         content.addView(text(
                 "Every recipe here matches all required ingredients and quantities in your pantry.",
                 16,
@@ -33,7 +32,6 @@ public class SuggestionsActivity extends BaseActivity {
                 startActivity(intent);
             }
         });
-        loadSuggestions();
     }
 
     @Override

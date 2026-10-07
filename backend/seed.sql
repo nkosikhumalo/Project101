@@ -1,0 +1,20 @@
+INSERT INTO recipes(name,steps,ingredients) VALUES
+('Tomato Egg Scramble','Whisk eggs. Cook chopped tomato in a pan, add eggs, stir gently until set.', '[{"name":"egg","quantity":2,"unit":"piece"},{"name":"tomato","quantity":1,"unit":"piece"}]'),
+('Garlic Tomato Pasta','Boil pasta. Warm garlic and tomatoes in oil, toss with drained pasta.', '[{"name":"pasta","quantity":200,"unit":"g"},{"name":"tomato","quantity":2,"unit":"piece"},{"name":"garlic","quantity":1,"unit":"clove"}]'),
+('Simple Pancakes','Whisk flour, milk and egg. Fry small portions until golden on both sides.', '[{"name":"flour","quantity":150,"unit":"g"},{"name":"milk","quantity":200,"unit":"ml"},{"name":"egg","quantity":1,"unit":"piece"}]'),
+('Cheese Omelette','Beat eggs, cook in a pan and fold with grated cheese.', '[{"name":"egg","quantity":2,"unit":"piece"},{"name":"cheese","quantity":30,"unit":"g"}]'),
+('Banana Oat Bowl','Cook oats in milk and top with sliced banana.', '[{"name":"oats","quantity":50,"unit":"g"},{"name":"milk","quantity":150,"unit":"ml"},{"name":"banana","quantity":1,"unit":"piece"}]'),
+('Garlic Fried Rice','Stir-fry cooked rice with garlic and egg until hot.', '[{"name":"rice","quantity":200,"unit":"g"},{"name":"garlic","quantity":1,"unit":"clove"},{"name":"egg","quantity":1,"unit":"piece"}]'),
+('Tomato Cheese Toast','Top bread with tomato and cheese. Toast until the cheese melts.', '[{"name":"bread","quantity":2,"unit":"slice"},{"name":"tomato","quantity":1,"unit":"piece"},{"name":"cheese","quantity":30,"unit":"g"}]'),
+('Lemon Garlic Pasta','Boil pasta. Toss with warmed garlic, lemon juice and a little pasta water.', '[{"name":"pasta","quantity":200,"unit":"g"},{"name":"garlic","quantity":2,"unit":"clove"},{"name":"lemon","quantity":1,"unit":"piece"}]'),
+('Apple Oat Porridge','Cook oats in milk and stir through diced apple.', '[{"name":"oats","quantity":50,"unit":"g"},{"name":"milk","quantity":200,"unit":"ml"},{"name":"apple","quantity":1,"unit":"piece"}]'),
+('Egg Fried Rice','Stir-fry cooked rice with beaten egg and spring onion.', '[{"name":"rice","quantity":200,"unit":"g"},{"name":"egg","quantity":2,"unit":"piece"},{"name":"spring onion","quantity":1,"unit":"piece"}]'),
+('Cheesy Tomato Pasta','Boil pasta, stir in chopped tomato and grated cheese until creamy.', '[{"name":"pasta","quantity":200,"unit":"g"},{"name":"tomato","quantity":2,"unit":"piece"},{"name":"cheese","quantity":40,"unit":"g"}]'),
+('Banana Pancakes','Mash banana and mix with egg and flour. Fry spoonfuls until cooked through.', '[{"name":"banana","quantity":1,"unit":"piece"},{"name":"egg","quantity":1,"unit":"piece"},{"name":"flour","quantity":80,"unit":"g"}]'),
+('Tomato Rice','Cook rice. Simmer chopped tomatoes with garlic and fold through.', '[{"name":"rice","quantity":150,"unit":"g"},{"name":"tomato","quantity":2,"unit":"piece"},{"name":"garlic","quantity":1,"unit":"clove"}]'),
+('Apple Pancakes','Mix flour, milk, egg and grated apple. Fry until golden.', '[{"name":"flour","quantity":120,"unit":"g"},{"name":"milk","quantity":150,"unit":"ml"},{"name":"egg","quantity":1,"unit":"piece"},{"name":"apple","quantity":1,"unit":"piece"}]'),
+('Garlic Cheese Toast','Mix crushed garlic with cheese, spread on bread and toast.', '[{"name":"bread","quantity":2,"unit":"slice"},{"name":"garlic","quantity":1,"unit":"clove"},{"name":"cheese","quantity":40,"unit":"g"}]'),
+('Tomato Egg Rice','Warm cooked rice with tomato, then top with a fried egg.', '[{"name":"rice","quantity":150,"unit":"g"},{"name":"tomato","quantity":1,"unit":"piece"},{"name":"egg","quantity":1,"unit":"piece"}]'),
+('Banana Milk Smoothie','Blend banana with cold milk until smooth.', '[{"name":"banana","quantity":1,"unit":"piece"},{"name":"milk","quantity":250,"unit":"ml"}]'),
+('Cheese Pasta','Boil pasta and mix with cheese and a splash of milk until smooth.', '[{"name":"pasta","quantity":200,"unit":"g"},{"name":"cheese","quantity":50,"unit":"g"},{"name":"milk","quantity":50,"unit":"ml"}]')
+ON CONFLICT(name) DO NOTHING;

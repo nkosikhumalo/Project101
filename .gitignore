@@ -6,3 +6,6 @@ local.properties
 backend/smartpantry
 backend/.gradle/
 backend/build/
+
+# Build outputs
+backend/build/

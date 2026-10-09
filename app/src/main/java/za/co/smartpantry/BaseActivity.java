@@ -13,20 +13,23 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 public class BaseActivity extends Activity {
-    final int ink = Color.rgb(30, 48, 39);
-    final int green = Color.rgb(40, 104, 73);
-    final int cream = Color.rgb(247, 247, 239);
+    final int ink = Color.rgb(20, 20, 20);
+    final int gray300 = Color.rgb(220, 220, 220);
+    final int gray100 = Color.rgb(245, 245, 245);
+    final int paper = Color.WHITE;
 
     LinearLayout page;
     LinearLayout content;
 
     void startScreen(String title) {
-        getWindow().setStatusBarColor(ink);
-        getWindow().setNavigationBarColor(ink);
+        getWindow().setStatusBarColor(gray100);
+        getWindow().setNavigationBarColor(gray100);
+        getWindow().getDecorView().setSystemUiVisibility(
+                View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR | View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR);
 
         page = new LinearLayout(this);
         page.setOrientation(LinearLayout.VERTICAL);
-        page.setBackgroundColor(cream);
+        page.setBackgroundColor(gray100);
         page.setOnApplyWindowInsetsListener((view, insets) -> {
             view.setPadding(
                     view.getPaddingLeft(),
@@ -39,10 +42,10 @@ public class BaseActivity extends Activity {
 
         TextView titleBar = new TextView(this);
         titleBar.setText("  " + title);
-        titleBar.setTextColor(Color.WHITE);
+        titleBar.setTextColor(ink);
         titleBar.setTextSize(22);
         titleBar.setTypeface(null, Typeface.BOLD);
-        titleBar.setBackgroundColor(ink);
+        titleBar.setBackgroundColor(gray300);
         titleBar.setPadding(dp(18), dp(20), dp(18), dp(20));
         page.addView(titleBar);
 
@@ -55,7 +58,7 @@ public class BaseActivity extends Activity {
         scroll.addView(content);
 
         LinearLayout navigation = new LinearLayout(this);
-        navigation.setBackgroundColor(Color.WHITE);
+        navigation.setBackgroundColor(paper);
         navigation.setGravity(Gravity.CENTER_VERTICAL);
         page.addView(navigation);
         addNavigationButton(navigation, "Pantry", PantryActivity.class);
@@ -67,14 +70,14 @@ public class BaseActivity extends Activity {
         Button button = new Button(this);
         button.setText(label);
         button.setAllCaps(false);
-        button.setTextColor(green);
+        button.setTextColor(ink);
         button.setTextSize(16);
         button.setMinWidth(0);
         button.setMinHeight(dp(56));
         button.setMaxLines(1);
         button.setPadding(dp(6), 0, dp(6), 0);
         button.setBackgroundTintList(
-                android.content.res.ColorStateList.valueOf(Color.WHITE));
+                android.content.res.ColorStateList.valueOf(paper));
         row.addView(button, new LinearLayout.LayoutParams(0, dp(64), 1));
         button.setOnClickListener(view -> startActivity(new Intent(this, screen)));
     }
@@ -95,9 +98,9 @@ public class BaseActivity extends Activity {
         Button button = new Button(this);
         button.setText(label);
         button.setAllCaps(false);
-        button.setTextColor(Color.WHITE);
+        button.setTextColor(ink);
         button.setBackgroundTintList(
-                android.content.res.ColorStateList.valueOf(green));
+                android.content.res.ColorStateList.valueOf(gray300));
         button.setTextSize(18);
         button.setMinHeight(dp(60));
         button.setPadding(dp(16), dp(10), dp(16), dp(10));

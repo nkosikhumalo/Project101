@@ -38,7 +38,8 @@ public class PantryAdapter extends BaseAdapter {
                 ? (TextView) recycledView
                 : new TextView(context);
         row.setText(items.get(position).label());
-        row.setTextColor(0xff1e3027);
+        row.setTextColor(0xff141414);
+        row.setBackgroundColor(0xfff2f2f2);
         row.setTextSize(17);
         row.setPadding(18, 15, 12, 15);
         return row;

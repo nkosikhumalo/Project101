@@ -4,12 +4,12 @@ Java Android app backed by PostgreSQL through a Java REST API. Both the Android 
 
 ## Database setup
 
-The local PostgreSQL database is named `smartpantry`, owned by the `nkosi` role. Its schema and 18 starter recipes have already been created in this environment. A restricted `pantry_app` login is configured for the API. To create them on another machine, run from the project root:
+The local PostgreSQL database is named `smartpantry`, owned by your local PostgreSQL role. `./run.sh` applies the schema and seeds 19 South African starter recipes automatically before starting the API. To create the database and API login on another machine, run from the project root:
 
 ```bash
 createdb -O "$USER" smartpantry
-psql -d smartpantry -v ON_ERROR_STOP=1 -f backend/schema.sql -f backend/seed.sql
 psql -d postgres -c "CREATE ROLE pantry_app LOGIN PASSWORD 'pantry_local_dev';"
+psql -d smartpantry -v ON_ERROR_STOP=1 -f backend/schema.sql -f backend/seed.sql
 psql -d smartpantry -c 'GRANT CONNECT ON DATABASE smartpantry TO pantry_app; GRANT USAGE ON SCHEMA public TO pantry_app; GRANT SELECT, INSERT, UPDATE, DELETE ON pantry_items TO pantry_app; GRANT SELECT ON recipes TO pantry_app; GRANT SELECT, UPDATE ON app_settings TO pantry_app; GRANT USAGE, SELECT ON SEQUENCE pantry_items_id_seq TO pantry_app;'
 ```
 
@@ -43,7 +43,7 @@ The project uses Gradle 8.13, JDK 21, and Android SDK Platform 35. The app reach
 - Add/edit form with required field, positive quantity and expiry date validation.
 - Suggested recipe list, clear no-match state, and recipe detail with ingredients and method.
 - Settings screen for expiring-soon alerts; bottom navigation between Pantry, Recipes and Settings.
-- 18 recipes in PostgreSQL, seeded by `backend/seed.sql`.
+- 19 South African recipes in PostgreSQL, automatically seeded by `./run.sh` from `backend/seed.sql` on launch. The collection includes pap and chakalaka, bobotie, bunny chow, umngqusho, vetkoek, malva pudding and more.
 
 Recipe suggestions use strict matching: each required ingredient must be in the pantry in sufficient quantity. Ingredient names ignore case and common English plural endings. Kilograms convert to grams and litres to millilitres. Pieces, slices, cloves and unknown units only match their own unit category; incompatible units never satisfy a requirement. Multiple matching pantry entries are added together.
 

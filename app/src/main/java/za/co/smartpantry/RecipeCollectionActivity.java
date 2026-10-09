@@ -67,7 +67,7 @@ public class RecipeCollectionActivity extends BaseActivity {
             }
 
             adapter.setEmptyMessage(recipes.isEmpty()
-                    ? "No recipes are available yet. Seed the database with backend/seed.sql."
+                    ? "No recipes are available yet. Restart the app to seed the starter collection."
                     : null);
             adapter.notifyDataSetChanged();
         });

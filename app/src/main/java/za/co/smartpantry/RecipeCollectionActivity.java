@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import org.json.JSONObject;
 
@@ -24,11 +25,15 @@ public class RecipeCollectionActivity extends BaseActivity {
         button("Suggested Recipes", () ->
                 startActivity(new Intent(this, SuggestionsActivity.class)));
 
+        TextView empty = text("Loading recipes…", 16, false);
         ListView list = new ListView(this);
         adapter = new RecipeAdapter(this, recipes);
-        adapter.setEmptyMessage("Loading recipes…");
+        adapter.setEmptyView(empty);
+        list.setEmptyView(empty);
         list.setAdapter(adapter);
-        content.addView(list, new LinearLayout.LayoutParams(-1, -2));
+        // Place list directly on body so it fills remaining space and scrolls correctly.
+        body.addView(empty, new LinearLayout.LayoutParams(-1, -2));
+        body.addView(list, new LinearLayout.LayoutParams(-1, 0, 1));
         list.setOnItemClickListener((parent, view, position, id) -> {
             if (position < recipes.size()) {
                 Intent intent = new Intent(this, RecipeDetailActivity.class);
@@ -51,6 +56,7 @@ public class RecipeCollectionActivity extends BaseActivity {
             recipes.clear();
             if (error != null) {
                 adapter.setEmptyMessage("Could not load recipes. Check your server connection.");
+                adapter.notifyDataSetChanged();
                 return;
             }
 
@@ -67,7 +73,7 @@ public class RecipeCollectionActivity extends BaseActivity {
             }
 
             adapter.setEmptyMessage(recipes.isEmpty()
-                    ? "No recipes are available yet. Restart the app to seed the starter collection."
+                    ? "No recipes available yet. Restart the app to seed the starter collection."
                     : null);
             adapter.notifyDataSetChanged();
         });

@@ -57,11 +57,11 @@ public class PantryAdapter extends BaseAdapter {
             label.setLineSpacing(px(2), 1f);
             row.addView(label, new LinearLayout.LayoutParams(0, -2, 1));
 
-            editBtn = iconButton("✏️");
-            row.addView(editBtn, new LinearLayout.LayoutParams(px(44), px(44)));
+            editBtn = iconButton("Edit");
+            row.addView(editBtn, new LinearLayout.LayoutParams(-2, px(40)));
 
-            deleteBtn = iconButton("🗑");
-            row.addView(deleteBtn, new LinearLayout.LayoutParams(px(44), px(44)));
+            deleteBtn = iconButton("Delete");
+            row.addView(deleteBtn, new LinearLayout.LayoutParams(-2, px(40)));
         }
 
         Ingredient item = items.get(position);
@@ -72,12 +72,14 @@ public class PantryAdapter extends BaseAdapter {
         return row;
     }
 
-    private TextView iconButton(String emoji) {
+    private TextView iconButton(String label) {
         TextView btn = new TextView(context);
-        btn.setText(emoji);
-        btn.setTextSize(18);
-        btn.setTypeface(null, Typeface.NORMAL);
+        btn.setText(label);
+        btn.setTextSize(12);
+        btn.setTypeface(null, Typeface.BOLD);
         btn.setGravity(Gravity.CENTER);
+        btn.setTextColor(0xff3c78ff);
+        btn.setPadding(px(10), 0, px(10), 0);
         return btn;
     }
 

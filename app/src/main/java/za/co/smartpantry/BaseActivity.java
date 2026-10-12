@@ -59,20 +59,26 @@ public class BaseActivity extends Activity {
         titleBar.setElevation(dp(2));
         page.addView(titleBar);
 
-        // Back button
+        // Back button — blue circle with white arrow
         Button backBtn = new Button(this);
-        backBtn.setText("‹");
+        backBtn.setText("<");
         backBtn.setAllCaps(false);
-        backBtn.setTextSize(28);
-        backBtn.setTextColor(accent);
-        backBtn.setBackgroundTintList(
-                android.content.res.ColorStateList.valueOf(Color.TRANSPARENT));
-        backBtn.setPadding(dp(8), 0, dp(4), 0);
+        backBtn.setTextSize(18);
+        backBtn.setTypeface(null, Typeface.BOLD);
+        backBtn.setTextColor(Color.WHITE);
+        backBtn.setPadding(0, 0, 0, 0);
         backBtn.setMinWidth(0);
         backBtn.setMinHeight(0);
+        GradientDrawable backBg = new GradientDrawable();
+        backBg.setShape(GradientDrawable.OVAL);
+        backBg.setColor(accent);
+        backBtn.setBackground(backBg);
         backBtn.setOnClickListener(v -> finish());
         backBtn.setVisibility(isTaskRoot() ? View.GONE : View.VISIBLE);
-        titleBar.addView(backBtn, new LinearLayout.LayoutParams(-2, -2));
+        LinearLayout.LayoutParams backParams = new LinearLayout.LayoutParams(dp(38), dp(38));
+        backParams.leftMargin  = dp(10);
+        backParams.rightMargin = dp(6);
+        titleBar.addView(backBtn, backParams);
 
         TextView titleText = new TextView(this);
         titleText.setText(title);
@@ -99,7 +105,7 @@ public class BaseActivity extends Activity {
         LinearLayout navigation = new LinearLayout(this);
         navigation.setBackgroundColor(surface);
         navigation.setGravity(Gravity.CENTER_VERTICAL);
-        // top divider
+        navigation.setPadding(dp(8), dp(10), dp(8), dp(10));
         navigation.setElevation(dp(4));
         page.addView(navigation);
         addNavigationButton(navigation, "Pantry",   PantryActivity.class);
@@ -111,16 +117,32 @@ public class BaseActivity extends Activity {
         Button button = new Button(this);
         button.setText(label);
         button.setAllCaps(false);
-        button.setTextColor(subtle);
-        button.setTextSize(14);
+        button.setTextSize(13);
         button.setTypeface(null, Typeface.BOLD);
         button.setMinWidth(0);
         button.setMinHeight(0);
         button.setMaxLines(1);
-        button.setPadding(dp(6), dp(12), dp(6), dp(12));
-        button.setBackgroundTintList(
-                android.content.res.ColorStateList.valueOf(Color.TRANSPARENT));
-        row.addView(button, new LinearLayout.LayoutParams(0, dp(60), 1));
+        button.setPadding(dp(4), dp(8), dp(4), dp(8));
+
+        // Highlight if this is the current screen
+        boolean active = getClass().equals(screen);
+        GradientDrawable bg = new GradientDrawable();
+        bg.setCornerRadius(dp(20));
+        if (active) {
+            bg.setColor(accent);
+            button.setTextColor(Color.WHITE);
+        } else {
+            bg.setColor(Color.TRANSPARENT);
+            bg.setStroke(dp(1), accent);
+            button.setTextColor(accent);
+        }
+        button.setBackground(bg);
+
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(0, dp(44), 1);
+        params.leftMargin  = dp(6);
+        params.rightMargin = dp(6);
+        params.gravity     = Gravity.CENTER_VERTICAL;
+        row.addView(button, params);
         button.setOnClickListener(view -> startActivity(new Intent(this, screen)));
     }
 

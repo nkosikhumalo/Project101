@@ -1,0 +1,10 @@
+FROM gradle:8.13-jdk21 AS build
+WORKDIR /app
+COPY . .
+RUN gradle --no-daemon --max-workers=2 -p backend installDist
+
+FROM eclipse-temurin:21-jre-alpine
+WORKDIR /app
+COPY --from=build /app/backend/build/install/smart-pantry-api ./
+EXPOSE 8080
+CMD ["bin/smart-pantry-api"]

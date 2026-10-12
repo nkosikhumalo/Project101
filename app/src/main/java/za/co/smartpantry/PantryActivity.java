@@ -25,12 +25,14 @@ public class PantryActivity extends BaseActivity {
                 startActivity(new Intent(this, IngredientFormActivity.class)));
 
         TextView empty = text("Loading your pantry…", 16, false);
-        content.addView(empty);
         list = new ListView(this);
-        adapter = new PantryAdapter(this, items);
         list.setEmptyView(empty);
+        adapter = new PantryAdapter(this, items);
         list.setAdapter(adapter);
-        content.addView(list, new LinearLayout.LayoutParams(-1, -2));
+        // Add empty view and list directly to body (outside the ScrollView) so the
+        // ListView can scroll independently and show all items.
+        body.addView(empty, new LinearLayout.LayoutParams(-1, -2));
+        body.addView(list, new LinearLayout.LayoutParams(-1, 0, 1));
         list.setOnItemClickListener((parent, view, position, id) ->
                 showItemActions(items.get(position)));
     }
@@ -68,8 +70,8 @@ public class PantryActivity extends BaseActivity {
     }
 
     private void emptyMessage(String value) {
-        if (list != null && list.getEmptyView() instanceof android.widget.TextView) {
-            ((android.widget.TextView) list.getEmptyView()).setText(value);
+        if (list != null && list.getEmptyView() instanceof TextView) {
+            ((TextView) list.getEmptyView()).setText(value);
         }
     }
 

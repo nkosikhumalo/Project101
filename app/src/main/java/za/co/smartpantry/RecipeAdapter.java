@@ -52,10 +52,10 @@ public class RecipeAdapter extends BaseAdapter {
                 : new TextView(context);
 
         row.setText(recipes.get(position).label());
-        row.setTextColor(0xff141414);
-        row.setBackgroundColor(0xfff2f2f2);
-        row.setTextSize(17);
-        row.setPadding(18, 15, 12, 15);
+        row.setTextColor(0xff121212);
+        row.setBackgroundColor(0xffffffff);
+        row.setTextSize(16);
+        row.setPadding(48, 36, 48, 36);
         return row;
     }
 }

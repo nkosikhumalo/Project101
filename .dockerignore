@@ -1,0 +1,7 @@
+.git
+.gradle
+app/build
+backend/build
+build
+local.properties
+*.log

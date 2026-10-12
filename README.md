@@ -1,8 +1,43 @@
 # Smart Pantry Manager
 
-Java Android app backed by PostgreSQL through a Java REST API. Both the Android app and its API are written in Java. Docker is not required.
+Java Android app backed by PostgreSQL through a Java REST API.
 
-## Database setup
+## Quick start (recommended)
+
+The easiest way to run the project on any machine is with Docker. It handles the database and API automatically — no PostgreSQL install needed.
+
+**1. Install Docker Desktop**
+Download from https://www.docker.com/products/docker-desktop/ and start it.
+
+**2. Clone the project**
+```bash
+git clone <your-repo-url>
+cd Project101
+```
+
+**3. Start the backend**
+```bash
+./start.sh
+```
+
+That's it. The database is created, seeded with 19 recipes, and the API starts on port `8080` automatically.
+
+**4. Run the Android app**
+Open the project in Android Studio, start an emulator, and press Run. The app connects to the API at `10.0.2.2:8080` automatically.
+
+**To stop everything:**
+```bash
+docker compose down
+```
+
+**To view logs:**
+```bash
+docker compose logs -f
+```
+
+---
+
+## Manual setup (if you already have PostgreSQL installed locally)
 
 The local PostgreSQL database is named `smartpantry`, owned by your local PostgreSQL role. `./run.sh` applies the schema and seeds 19 South African starter recipes automatically before starting the API. To create the database and API login on another machine, run from the project root:
 

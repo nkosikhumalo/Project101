@@ -19,6 +19,7 @@ public class BaseActivity extends Activity {
     final int paper = Color.WHITE;
 
     LinearLayout page;
+    LinearLayout body;
     LinearLayout content;
 
     void startScreen(String title) {
@@ -49,8 +50,13 @@ public class BaseActivity extends Activity {
         titleBar.setPadding(dp(18), dp(20), dp(18), dp(20));
         page.addView(titleBar);
 
+        // body fills all space between title and nav bar
+        body = new LinearLayout(this);
+        body.setOrientation(LinearLayout.VERTICAL);
+        page.addView(body, new LinearLayout.LayoutParams(-1, 0, 1));
+
         ScrollView scroll = new ScrollView(this);
-        page.addView(scroll, new LinearLayout.LayoutParams(-1, 0, 1));
+        body.addView(scroll, new LinearLayout.LayoutParams(-1, -2));
 
         content = new LinearLayout(this);
         content.setPadding(dp(18), dp(16), dp(18), dp(16));

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 
 
 import java.util.ArrayList;
@@ -21,10 +22,15 @@ public class SuggestionsActivity extends BaseActivity {
                 16,
                 false));
 
+        TextView empty = text("Loading suggestions…", 16, false);
         ListView list = new ListView(this);
         adapter = new RecipeAdapter(this, recipes);
+        adapter.setEmptyView(empty);
+        list.setEmptyView(empty);
         list.setAdapter(adapter);
-        content.addView(list, new LinearLayout.LayoutParams(-1, -2));
+        // Place empty view and list directly on body so ListView fills remaining space.
+        body.addView(empty, new LinearLayout.LayoutParams(-1, -2));
+        body.addView(list, new LinearLayout.LayoutParams(-1, 0, 1));
         list.setOnItemClickListener((parent, view, position, id) -> {
             if (position < recipes.size()) {
                 Intent intent = new Intent(this, RecipeDetailActivity.class);
@@ -43,19 +49,15 @@ public class SuggestionsActivity extends BaseActivity {
     }
 
     private void loadSuggestions() {
+        adapter.setEmptyMessage("Loading suggestions…");
         Api.request("GET", "/recipes/suggested", null, (data, error) -> {
             recipes.clear();
             if (error != null) {
                 adapter.setEmptyMessage(
                         "Could not load suggestions. Check your server connection.");
+                adapter.notifyDataSetChanged();
                 return;
             }
-            if (data.length() == 0) {
-                adapter.setEmptyMessage(
-                        "No recipes match your pantry yet — add more ingredients.");
-                return;
-            }
-
             for (int i = 0; i < data.length(); i++) {
                 try {
                     recipes.add(new Recipe(data.getJSONObject(i)));
@@ -63,7 +65,12 @@ public class SuggestionsActivity extends BaseActivity {
                     // Ignore malformed recipes while keeping valid suggestions visible.
                 }
             }
-            adapter.setEmptyMessage(null);
+            if (recipes.isEmpty()) {
+                adapter.setEmptyMessage(
+                        "No recipes match your pantry yet — add more ingredients.");
+            } else {
+                adapter.setEmptyMessage(null);
+            }
             adapter.notifyDataSetChanged();
         });
     }

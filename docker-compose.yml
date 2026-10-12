@@ -1,0 +1,37 @@
+services:
+
+  db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB:       smartpantry
+      POSTGRES_USER:     pantry_app
+      POSTGRES_PASSWORD: pantry_local_dev
+    volumes:
+      - db_data:/var/lib/postgresql/data
+      - ./backend/schema.sql:/docker-entrypoint-initdb.d/01_schema.sql
+      - ./backend/seed.sql:/docker-entrypoint-initdb.d/02_seed.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U pantry_app -d smartpantry"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile.api
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    environment:
+      DATABASE_URL: jdbc:postgresql://db:5432/smartpantry
+      DB_USER:      pantry_app
+      DB_PASSWORD:  pantry_local_dev
+      PORT:         "8080"
+    depends_on:
+      db:
+        condition: service_healthy
+
+volumes:
+  db_data:

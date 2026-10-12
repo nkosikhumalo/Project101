@@ -18,10 +18,10 @@ public class PantryActivity extends BaseActivity {
         super.onCreate(state);
         startScreen("My Pantry");
         content.addView(text(
-                "Keep track of what you have at home. Use ✏️ to edit or 🗑 to delete.",
+                "Keep track of what you have at home. Use Edit or Delete on each item.",
                 16,
                 false));
-        button("＋  Add ingredient", () ->
+        button("+ Add ingredient", () ->
                 startActivity(new Intent(this, IngredientFormActivity.class)));
 
         TextView empty = text("Loading your pantry…", 16, false);

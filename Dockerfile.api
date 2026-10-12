@@ -1,7 +1,16 @@
 FROM gradle:8.13-jdk21 AS build
 WORKDIR /app
-COPY . .
-RUN gradle --no-daemon --max-workers=2 -p backend installDist
+
+# Copy the backend source and the root gradle wrapper
+COPY backend/build.gradle backend/settings.gradle backend/schema.sql backend/seed.sql ./backend/
+COPY backend/src ./backend/src/
+COPY gradle ./gradle/
+COPY gradlew ./
+
+RUN chmod +x gradlew
+
+# Build the backend using the root gradlew pointed at the backend directory
+RUN ./gradlew --no-daemon --max-workers=2 -p backend installDist
 
 FROM eclipse-temurin:21-jre-alpine
 WORKDIR /app

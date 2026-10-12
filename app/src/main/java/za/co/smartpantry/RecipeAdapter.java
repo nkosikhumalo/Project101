@@ -11,31 +11,38 @@ import java.util.List;
 public class RecipeAdapter extends BaseAdapter {
     private final Context context;
     private final List<Recipe> recipes;
-    private String emptyMessage;
+    private TextView emptyView;
 
     public RecipeAdapter(Context context, List<Recipe> recipes) {
         this.context = context;
         this.recipes = recipes;
     }
 
+    public void setEmptyView(TextView view) {
+        emptyView = view;
+    }
+
+    /** Updates the empty-state message shown when the list has no items. */
+    public void setEmptyMessage(String message) {
+        if (emptyView != null) {
+            emptyView.setText(message == null ? "" : message);
+        }
+        notifyDataSetChanged();
+    }
+
     @Override
     public int getCount() {
-        return recipes.isEmpty() ? 1 : recipes.size();
+        return recipes.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return recipes.isEmpty() ? null : recipes.get(position);
+        return recipes.get(position);
     }
 
     @Override
     public long getItemId(int position) {
-        return recipes.isEmpty() ? 0 : recipes.get(position).id;
-    }
-
-    public void setEmptyMessage(String message) {
-        emptyMessage = message;
-        notifyDataSetChanged();
+        return recipes.get(position).id;
     }
 
     @Override
@@ -44,14 +51,7 @@ public class RecipeAdapter extends BaseAdapter {
                 ? (TextView) recycledView
                 : new TextView(context);
 
-        String label;
-        if (recipes.isEmpty()) {
-            label = emptyMessage == null ? "Loading recipes…" : emptyMessage;
-        } else {
-            label = recipes.get(position).label();
-        }
-
-        row.setText(label);
+        row.setText(recipes.get(position).label());
         row.setTextColor(0xff141414);
         row.setBackgroundColor(0xfff2f2f2);
         row.setTextSize(17);

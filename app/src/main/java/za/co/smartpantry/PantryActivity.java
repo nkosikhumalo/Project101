@@ -18,7 +18,7 @@ public class PantryActivity extends BaseActivity {
         super.onCreate(state);
         startScreen("My Pantry");
         content.addView(text(
-                "Keep track of what you have at home. Tap an ingredient to edit or delete it.",
+                "Keep track of what you have at home. Use ✏️ to edit or 🗑 to delete.",
                 16,
                 false));
         button("＋  Add ingredient", () ->
@@ -27,14 +27,15 @@ public class PantryActivity extends BaseActivity {
         TextView empty = text("Loading your pantry…", 16, false);
         list = new ListView(this);
         list.setEmptyView(empty);
-        adapter = new PantryAdapter(this, items);
+        adapter = new PantryAdapter(this, items, new PantryAdapter.RowAction() {
+            @Override public void onEdit(Ingredient item)   { openEditor(item); }
+            @Override public void onDelete(Ingredient item) { confirmDelete(item); }
+        });
         list.setAdapter(adapter);
         // Add empty view and list directly to body (outside the ScrollView) so the
         // ListView can scroll independently and show all items.
         body.addView(empty, new LinearLayout.LayoutParams(-1, -2));
         body.addView(list, new LinearLayout.LayoutParams(-1, 0, 1));
-        list.setOnItemClickListener((parent, view, position, id) ->
-                showItemActions(items.get(position)));
     }
 
     @Override
@@ -75,16 +76,12 @@ public class PantryActivity extends BaseActivity {
         }
     }
 
-    private void showItemActions(Ingredient ingredient) {
+    private void confirmDelete(Ingredient ingredient) {
         new android.app.AlertDialog.Builder(this)
-                .setTitle(ingredient.name)
-                .setItems(new String[]{"Edit", "Delete"}, (dialog, choice) -> {
-                    if (choice == 0) {
-                        openEditor(ingredient);
-                    } else {
-                        deleteIngredient(ingredient);
-                    }
-                })
+                .setTitle("Delete " + ingredient.name + "?")
+                .setMessage("This will remove it from your pantry.")
+                .setPositiveButton("Delete", (d, w) -> deleteIngredient(ingredient))
+                .setNegativeButton("Cancel", null)
                 .show();
     }
 

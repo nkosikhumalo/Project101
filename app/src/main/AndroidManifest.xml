@@ -1,6 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
-    <uses-permission android:name="android.permission.INTERNET" />
-    <application android:theme="@android:style/Theme.Material.Light.NoActionBar" android:label="Smart Pantry" android:usesCleartextTraffic="true">
+    <application android:theme="@android:style/Theme.Material.Light.NoActionBar" android:label="Smart Pantry">
         <activity android:name=".SettingsActivity" />
         <activity android:name=".RecipeDetailActivity" />
         <activity android:name=".SuggestionsActivity" />

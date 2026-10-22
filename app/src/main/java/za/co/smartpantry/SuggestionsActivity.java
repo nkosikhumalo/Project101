@@ -54,7 +54,7 @@ public class SuggestionsActivity extends BaseActivity {
             recipes.clear();
             if (error != null) {
                 adapter.setEmptyMessage(
-                        "Could not load suggestions. Check your server connection.");
+                        "Could not load suggestions from on-device storage.");
                 adapter.notifyDataSetChanged();
                 return;
             }

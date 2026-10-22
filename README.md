@@ -1,90 +1,41 @@
 # Smart Pantry Manager
 
-Java Android app backed by PostgreSQL through a Java REST API.
+Smart Pantry Manager is a Java Android app that keeps pantry items and preferences in a local SQLite database on the device. It works offline and does not need PostgreSQL, Docker, a separate API server, or an internet connection. The app includes 19 South African starter recipes.
 
-## Quick start (recommended)
+## Run from Android Studio
 
-The easiest way to run the project on any machine is with Docker. It handles the database and API automatically — no PostgreSQL install needed.
+Open this folder in Android Studio, let Gradle sync, choose an emulator or connected Android phone, then press **Run**. The first launch creates the local database and loads the starter recipes. Pantry items and settings remain on that device.
 
-**1. Install Docker Desktop**
-Download from https://www.docker.com/products/docker-desktop/ and start it.
+## Build from a terminal
 
-**2. Clone the project**
-```bash
-git clone <your-repo-url>
-cd Project101
+If Android Studio is unstable, use its installed Android SDK and Java runtime from PowerShell in the project folder:
+
+```powershell
+$env:JAVA_HOME = 'C:\Program Files\Android\Android Studio\jbr'
+$env:Path = "$env:JAVA_HOME\bin;$env:Path"
+$env:GRADLE_USER_HOME = (Join-Path (Get-Location) '.gradle')
+$env:ANDROID_USER_HOME = (Join-Path (Get-Location) '.android-local')
+.\gradlew.bat assembleDebug
 ```
 
-**3. Start the backend**
-```bash
-./start.sh
+The APK is written to `app/build/outputs/apk/debug/app-debug.apk`. Copy it to an Android phone and install it, or use Android Debug Bridge:
+
+```powershell
+& "$env:LOCALAPPDATA\Android\Sdk\platform-tools\adb.exe" install -r app/build/outputs/apk/debug/app-debug.apk
 ```
 
-That's it. The database is created, seeded with 19 recipes, and the API starts on port `8080` automatically.
-
-**4. Run the Android app**
-Open the project in Android Studio, start an emulator, and press Run. The app connects to the API at `10.0.2.2:8080` automatically.
-
-**To stop everything:**
-```bash
-docker compose down
-```
-
-**To view logs:**
-```bash
-docker compose logs -f
-```
-
----
-
-## Manual setup (if you already have PostgreSQL installed locally)
-
-The local PostgreSQL database is named `smartpantry`, owned by your local PostgreSQL role. `./run.sh` applies the schema and seeds 19 South African starter recipes automatically before starting the API. To create the database and API login on another machine, run from the project root:
-
-```bash
-createdb -O "$USER" smartpantry
-psql -d postgres -c "CREATE ROLE pantry_app LOGIN PASSWORD 'pantry_local_dev';"
-psql -d smartpantry -v ON_ERROR_STOP=1 -f backend/schema.sql -f backend/seed.sql
-psql -d smartpantry -c 'GRANT CONNECT ON DATABASE smartpantry TO pantry_app; GRANT USAGE ON SCHEMA public TO pantry_app; GRANT SELECT, INSERT, UPDATE, DELETE ON pantry_items TO pantry_app; GRANT SELECT ON recipes TO pantry_app; GRANT SELECT, UPDATE ON app_settings TO pantry_app; GRANT USAGE, SELECT ON SEQUENCE pantry_items_id_seq TO pantry_app;'
-```
-
-## Start the API
-
-In a terminal, from the project root, start the Java API:
-
-```bash
-JAVA_HOME=/usr/lib/jvm/java-21-openjdk-amd64 \
-PATH=/usr/lib/jvm/java-21-openjdk-amd64/bin:$PATH \
-./gradlew -p backend run
-```
-
-The API listens on port `8080`. The Java service connects to `jdbc:postgresql://127.0.0.1:5432/smartpantry` with the `pantry_app` login. Override `DATABASE_URL`, `DB_USER` or `DB_PASSWORD` with environment variables if your PostgreSQL setup differs. Gradle downloads the Java PostgreSQL driver and JSON library on first run.
-
-## Run the Android app
-
-From the project root, start PostgreSQL and run:
-
-```bash
-./run.sh
-```
-
-The script builds the APK and API, starts the PostgreSQL-backed API and the lower-memory API 35 emulator, installs the app, and opens it. Keep the terminal open while using the app; press Ctrl+C to stop processes the script started. It reuses an already-running API or emulator when available.
-
-The project uses Gradle 8.13, JDK 21, and Android SDK Platform 35. The app reaches the API at `10.0.2.2:8080` from the emulator.
+If the phone already has a copy signed with a different debug key, Android requires uninstalling that copy before installing this APK; uninstalling also deletes that copy's app data.
 
 ## Features
 
-- Pantry list with custom adapter; tap an item to edit or delete it.
-- Add/edit form with required field, positive quantity and expiry date validation.
-- Suggested recipe list, clear no-match state, and recipe detail with ingredients and method.
-- Settings screen for expiring-soon alerts; bottom navigation between Pantry, Recipes and Settings.
-- 19 South African recipes in PostgreSQL, automatically seeded by `./run.sh` from `backend/seed.sql` on launch. The collection includes pap and chakalaka, bobotie, bunny chow, umngqusho, vetkoek, malva pudding and more.
+- Add, edit, and delete pantry items, with quantity and optional expiry date.
+- Browse the recipe collection and view ingredients and cooking steps.
+- See recipes whose ingredients and quantities are covered by the pantry.
+- Save the expiry-alert preference locally.
+- Match equivalent metric quantities such as kilograms and grams, while keeping incompatible units separate.
 
-Recipe suggestions use strict matching: each required ingredient must be in the pantry in sufficient quantity. Ingredient names ignore case and common English plural endings. Kilograms convert to grams and litres to millilitres. Pieces, slices, cloves and unknown units only match their own unit category; incompatible units never satisfy a requirement. Multiple matching pantry entries are added together.
+## Project structure
 
-## API routes
-
-- `GET /api/pantry`, `POST /api/pantry`
-- `GET /api/pantry/{id}`, `PUT /api/pantry/{id}`, `DELETE /api/pantry/{id}`
-- `GET /api/recipes`, `GET /api/recipes/suggested`, `GET /api/recipes/{id}`
-- `GET /api/settings`, `PUT /api/settings`
+- `app/` — Android app and its on-device SQLite database.
+- `app/src/main/assets/recipes.json` — starter recipe catalogue loaded into SQLite on first launch.
+- `backend/` — standalone Java/PostgreSQL API retained as a separate backend example; the Android app no longer depends on it.

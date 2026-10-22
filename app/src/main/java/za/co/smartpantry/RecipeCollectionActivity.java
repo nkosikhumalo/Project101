@@ -55,7 +55,7 @@ public class RecipeCollectionActivity extends BaseActivity {
         Api.request("GET", "/recipes", null, (data, error) -> {
             recipes.clear();
             if (error != null) {
-                adapter.setEmptyMessage("Could not load recipes. Check your server connection.");
+                adapter.setEmptyMessage("Could not load recipes from on-device storage.");
                 adapter.notifyDataSetChanged();
                 return;
             }

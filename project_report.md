@@ -1,5 +1,7 @@
 # Smart Pantry Manager — Project Report
 
+> **Current app architecture:** The Android app stores data in local SQLite and runs without a server. The `backend/` directory is an optional standalone Java/PostgreSQL example; the older server-specific examples below describe that separate backend, not a runtime requirement for the app.
+
 ## Table of Contents
 
 1. [Introduction](#1-introduction)
@@ -24,7 +26,7 @@ Smart Pantry Manager is an Android app that helps people keep track of the food 
 
 Users can add, edit, and remove pantry items. Each item has a name, a quantity, a unit of measurement, and an optional expiry date. The app also shows a list of South African recipes and highlights which ones can be made using the ingredients currently in the pantry. A settings screen lets the user turn expiry alerts on or off.
 
-The Android app is written in Java. It sends requests to a Java REST API, which reads and writes data in a PostgreSQL database.
+The Android app is written in Java and stores pantry items, recipes, and settings in SQLite on the device. It works offline. The repository also includes a standalone Java REST API backed by PostgreSQL as an optional multi-device architecture example.
 
 ---
 
@@ -52,29 +54,28 @@ flowchart TD
 
 ### Database Model
 
-The database has three tables. `pantry_items` stores what the user currently has in stock. `recipes` holds the recipe catalogue, including the required ingredients stored as a JSON array inside the same row. `app_settings` stores the expiry-alert preference and is limited to a single row.
+The app's SQLite database has three tables. `pantry_items` stores current stock. `recipes` holds the catalogue, including each recipe's required ingredients as a JSON array. `app_settings` stores the expiry-alert preference in a single row. On first launch, the app loads 19 recipes bundled in `app/src/main/assets/recipes.json`.
 
 Because the ingredients are stored as JSON inside the `recipes` table, there is no separate join table or foreign key linking recipes to pantry items.
 
 ```mermaid
 erDiagram
     PANTRY_ITEMS {
-        BIGINT id PK
+        INTEGER id PK
         TEXT name
-        NUMERIC quantity
+        REAL quantity
         TEXT unit
-        DATE expiry_date
-        TIMESTAMPTZ updated_at
+        TEXT expiry_date
     }
     RECIPES {
-        BIGINT id PK
+        INTEGER id PK
         TEXT name UK
         TEXT steps
-        JSONB ingredients
+        TEXT ingredients "JSON array"
     }
     APP_SETTINGS {
         INTEGER id PK "fixed value 1"
-        BOOLEAN expiry_alerts
+        INTEGER expiry_alerts
     }
 ```
 
@@ -86,7 +87,7 @@ Key rules enforced by the schema:
 
 ### How the Parts Connect
 
-The Android app sends HTTP requests to routes such as `/api/pantry` and `/api/recipes/suggested`. The API validates the request, runs a SQL query against PostgreSQL, and returns JSON. The Android emulator cannot use `localhost` to reach the host machine, so the app uses the address `10.0.2.2` on port `8080` instead.
+Each screen uses the local data layer in `Api.java`. It performs SQLite reads and writes on a background executor, then posts results to the UI thread. Recipe matching uses the pantry and recipe data stored on the device, so the app needs no host address, network connection, or API process.
 
 ---
 
@@ -120,7 +121,7 @@ try (PreparedStatement statement = database.prepareStatement(
 
 The SQL structure is written separately from the values the user typed. This prevents SQL injection, because the database driver handles escaping. It also makes it straightforward to store a blank optional expiry date as a database `NULL` inside the shared `bindPantry` method.
 
-### C. Run Network Calls Off the Main Thread
+### C. Run Database Work Off the Main Thread
 
 From `Api.java`:
 
@@ -130,13 +131,17 @@ private static final Handler MAIN_THREAD = new Handler(Looper.getMainLooper());
 
 public static void request(String method, String path, JSONObject body, Done done) {
     REQUESTS.execute(() -> {
-        // Send the HTTP request and read the response here.
-        MAIN_THREAD.post(() -> done.call(result, error));
+        try {
+            JSONArray result = execute(database.getWritableDatabase(), method, path, body);
+            MAIN_THREAD.post(() -> done.call(result, null));
+        } catch (Exception exception) {
+            MAIN_THREAD.post(() -> done.call(null, exception.getMessage()));
+        }
     });
 }
 ```
 
-Network requests can take time, and Android does not allow them on the main thread. The app runs them on a background worker thread. Once the response arrives, the result is posted back to the main thread so the screen can update safely. The code also retries the request up to three times if a connection error occurs.
+Database reads and writes run on a background worker thread. Once an operation completes, its result is posted back to the main thread so the screen can update safely without freezing during disk access.
 
 ### D. Compare Recipe Quantities Using Compatible Units
 
@@ -159,21 +164,21 @@ Before comparing amounts, the API converts kilograms to grams and litres to mill
 
 ### Recipe matching needed more than ingredient names
 
-Just because an ingredient name appears in the pantry does not mean a recipe can be made. The user might not have enough of it, or the units might not be compatible. The API checks every required ingredient, adds up all matching pantry entries, converts supported metric units, and only includes a recipe in the suggestions if every required amount is available.
+Just because an ingredient name appears in the pantry does not mean a recipe can be made. The user might not have enough of it, or the units might not be compatible. The local data layer checks every required ingredient, adds matching pantry entries, converts supported metric units, and suggests a recipe only if every required amount is available.
 
-### The Android app and the API run in different environments
+### The app should work without a second runtime
 
-The Android emulator runs in a virtual machine and cannot use `localhost` to reach a service on the host computer. The app uses `10.0.2.2:8080` for this. Network calls also run on a background thread, and the retry logic means a slow or temporarily unavailable server does not freeze the screen.
+The earlier client/server design required a database and API on the development computer. Keeping SQLite inside the app removes that setup and makes it easier to build and demonstrate on machines with limited resources or unreliable development tools.
 
 ### Pantry data must be checked consistently
 
-The ingredient form on the Android side checks for required fields, a positive quantity, and the expected date format before sending the request. The API then repeats the important checks and parses dates as real calendar dates. This two-layer approach means invalid data is rejected even if it arrives from a client other than the app.
+The ingredient form checks required fields, positive quantities, and expiry dates before saving. The local data layer checks them again before writing to SQLite.
 
 ---
 
 ## 5. Conclusion and Reflection
 
-This project connects an Android app, a REST API, and a PostgreSQL database into one working application. It demonstrates moving data between these layers, validating user input on both sides, and using pantry stock to suggest recipes. It also handles South African recipes and common metric unit conversions.
+This project is a self-contained Android app with an on-device SQLite database. It demonstrates persistent storage, input validation, recipe suggestions based on pantry stock, and common metric unit conversions. A standalone Java/PostgreSQL backend example remains in the repository for a possible future multi-device version.
 
 Given more time, I would improve the expiry-alert feature so it actively identifies items nearing their expiry date and notifies the user. I would also add automated tests for recipe matching edge cases, and allow recipe data to be managed through the app rather than only through the database seed file.
 
@@ -181,7 +186,7 @@ Given more time, I would improve the expiry-alert feature so it actively identif
 
 ## 6. Reference List
 
-[1] Smart Pantry Manager, `README.md` — features, setup instructions, and API route list.
+[1] Smart Pantry Manager, `README.md` — offline features and Android build instructions.
 
 [2] Smart Pantry Manager, `backend/schema.sql` — PostgreSQL table definitions and constraints.
 
@@ -189,6 +194,6 @@ Given more time, I would improve the expiry-alert feature so it actively identif
 
 [4] Smart Pantry Manager, `backend/src/main/java/za/co/smartpantry/api/Server.java` — REST endpoints, validation, database access, and recipe matching.
 
-[5] Smart Pantry Manager, `app/src/main/java/za/co/smartpantry/Api.java` — Android HTTP client, background requests, and retry logic.
+[5] Smart Pantry Manager, `app/src/main/java/za/co/smartpantry/Api.java` — local SQLite access, background database operations, and recipe matching.
 
 [6] Smart Pantry Manager, `app/src/main/java/za/co/smartpantry/BaseActivity.java`, `PantryActivity.java`, `IngredientFormActivity.java`, `RecipeCollectionActivity.java`, `SuggestionsActivity.java`, `RecipeDetailActivity.java`, and `SettingsActivity.java` — screen layout, navigation, and user interactions.

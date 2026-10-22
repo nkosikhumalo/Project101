@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.GradientDrawable;
+import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
@@ -14,6 +15,12 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 public class BaseActivity extends Activity {
+
+    @Override
+    protected void onCreate(Bundle state) {
+        super.onCreate(state);
+        Api.initialize(this);
+    }
 
     // Colour palette
     final int ink        = Color.rgb(18, 18, 18);

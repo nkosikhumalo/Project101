@@ -49,9 +49,8 @@ public class PantryActivity extends BaseActivity {
     private void loadPantry() {
         Api.request("GET", "/pantry", null, (data, error) -> {
             if (error != null) {
-                emptyMessage("Pantry unavailable. Check the server connection and return to retry.");
-                message("Could not connect to the pantry server. Make sure ./run.sh is running.\n\n"
-                        + error);
+                emptyMessage("Your on-device pantry could not be opened. Return to retry.");
+                message("Could not load your pantry.\n\n" + error);
                 return;
             }
 

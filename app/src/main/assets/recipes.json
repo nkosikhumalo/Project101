@@ -1,0 +1,596 @@
+[
+    {
+        "name":  "Pap and Chakalaka",
+        "steps":  "Bring water to a boil with a little salt. Stir in maize meal gradually and cook, stirring, until thick and smooth. Fry onion, tomato and carrot, add beans and mild curry powder, then simmer until soft. Serve the chakalaka over the pap.",
+        "ingredients":  [
+                            {
+                                "name":  "maize meal",
+                                "quantity":  250,
+                                "unit":  "g"
+                            },
+                            {
+                                "name":  "onion",
+                                "quantity":  1,
+                                "unit":  "piece"
+                            },
+                            {
+                                "name":  "tomato",
+                                "quantity":  2,
+                                "unit":  "piece"
+                            },
+                            {
+                                "name":  "carrot",
+                                "quantity":  1,
+                                "unit":  "piece"
+                            },
+                            {
+                                "name":  "baked beans",
+                                "quantity":  200,
+                                "unit":  "g"
+                            },
+                            {
+                                "name":  "curry powder",
+                                "quantity":  1,
+                                "unit":  "tsp"
+                            }
+                        ]
+    },
+    {
+        "name":  "Boerewors Rolls",
+        "steps":  "Grill or pan-fry the boerewors until browned and cooked through. Warm the rolls, add the sausage and top with sliced onion and tomato sauce.",
+        "ingredients":  [
+                            {
+                                "name":  "boerewors",
+                                "quantity":  400,
+                                "unit":  "g"
+                            },
+                            {
+                                "name":  "bread roll",
+                                "quantity":  4,
+                                "unit":  "piece"
+                            },
+                            {
+                                "name":  "onion",
+                                "quantity":  1,
+                                "unit":  "piece"
+                            },
+                            {
+                                "name":  "tomato sauce",
+                                "quantity":  4,
+                                "unit":  "tbsp"
+                            }
+                        ]
+    },
+    {
+        "name":  "Cape Malay Bobotie",
+        "steps":  "Soak the bread in milk and mash it. Fry onion, then brown the mince with curry powder, chutney and raisins. Stir in the bread, place in a baking dish and pour over beaten egg mixed with a little milk. Bake at 180Â°C until set and golden.",
+        "ingredients":  [
+                            {
+                                "name":  "beef mince",
+                                "quantity":  500,
+                                "unit":  "g"
+                            },
+                            {
+                                "name":  "bread",
+                                "quantity":  1,
+                                "unit":  "slice"
+                            },
+                            {
+                                "name":  "milk",
+                                "quantity":  150,
+                                "unit":  "ml"
+                            },
+                            {
+                                "name":  "egg",
+                                "quantity":  2,
+                                "unit":  "piece"
+                            },
+                            {
+                                "name":  "onion",
+                                "quantity":  1,
+                                "unit":  "piece"
+                            },
+                            {
+                                "name":  "curry powder",
+                                "quantity":  2,
+                                "unit":  "tsp"
+                            },
+                            {
+                                "name":  "chutney",
+                                "quantity":  2,
+                                "unit":  "tbsp"
+                            },
+                            {
+                                "name":  "raisins",
+                                "quantity":  30,
+                                "unit":  "g"
+                            }
+                        ]
+    },
+    {
+        "name":  "Vetkoek with Curried Mince",
+        "steps":  "Mix flour, yeast, warm water and salt into a soft dough. Let it rise, shape into balls and fry in warm oil until golden. Fry onion and mince with curry powder, add tomato and simmer. Split the vetkoek and fill with mince.",
+        "ingredients":  [
+                            {
+                                "name":  "flour",
+                                "quantity":  500,
+                                "unit":  "g"
+                            },
+                            {
+                                "name":  "yeast",
+                                "quantity":  7,
+                                "unit":  "g"
+                            },
+                            {
+                                "name":  "beef mince",
+                                "quantity":  300,
+                                "unit":  "g"
+                            },
+                            {
+                                "name":  "onion",
+                                "quantity":  1,
+                                "unit":  "piece"
+                            },
+                            {
+                                "name":  "tomato",
+                                "quantity":  1,
+                                "unit":  "piece"
+                            },
+                            {
+                                "name":  "curry powder",
+                                "quantity":  1,
+                                "unit":  "tsp"
+                            },
+                            {
+                                "name":  "cooking oil",
+                                "quantity":  500,
+                                "unit":  "ml"
+                            }
+                        ]
+    },
+    {
+        "name":  "Bunny Chow",
+        "steps":  "Fry onion with curry powder, then add chicken pieces and brown. Add chopped tomatoes and potatoes with a splash of water. Cover and simmer until the chicken and potatoes are tender. Spoon into a hollowed bread loaf.",
+        "ingredients":  [
+                            {
+                                "name":  "chicken",
+                                "quantity":  500,
+                                "unit":  "g"
+                            },
+                            {
+                                "name":  "bread loaf",
+                                "quantity":  1,
+                                "unit":  "piece"
+                            },
+                            {
+                                "name":  "onion",
+                                "quantity":  1,
+                                "unit":  "piece"
+                            },
+                            {
+                                "name":  "tomato",
+                                "quantity":  2,
+                                "unit":  "piece"
+                            },
+                            {
+                                "name":  "potato",
+                                "quantity":  2,
+                                "unit":  "piece"
+                            },
+                            {
+                                "name":  "curry powder",
+                                "quantity":  2,
+                                "unit":  "tsp"
+                            }
+                        ]
+    },
+    {
+        "name":  "Umngqusho (Samp and Beans)",
+        "steps":  "Rinse the samp and beans and soak overnight. Drain, cover with fresh water and simmer with onion until tender, adding water as needed. Season and serve warm.",
+        "ingredients":  [
+                            {
+                                "name":  "samp",
+                                "quantity":  200,
+                                "unit":  "g"
+                            },
+                            {
+                                "name":  "sugar beans",
+                                "quantity":  100,
+                                "unit":  "g"
+                            },
+                            {
+                                "name":  "onion",
+                                "quantity":  1,
+                                "unit":  "piece"
+                            }
+                        ]
+    },
+    {
+        "name":  "Tomato Bredie",
+        "steps":  "Brown the lamb in a pot. Add onion and cook until soft, then stir in chopped tomatoes, potatoes and a little water. Cover and simmer gently until the lamb is tender and the sauce is thick.",
+        "ingredients":  [
+                            {
+                                "name":  "lamb",
+                                "quantity":  500,
+                                "unit":  "g"
+                            },
+                            {
+                                "name":  "tomato",
+                                "quantity":  4,
+                                "unit":  "piece"
+                            },
+                            {
+                                "name":  "potato",
+                                "quantity":  2,
+                                "unit":  "piece"
+                            },
+                            {
+                                "name":  "onion",
+                                "quantity":  1,
+                                "unit":  "piece"
+                            }
+                        ]
+    },
+    {
+        "name":  "Peri-Peri Chicken",
+        "steps":  "Mix peri-peri sauce, lemon juice and garlic. Coat the chicken and leave it to marinate. Bake at 200Â°C or grill, turning once, until browned and fully cooked.",
+        "ingredients":  [
+                            {
+                                "name":  "chicken",
+                                "quantity":  600,
+                                "unit":  "g"
+                            },
+                            {
+                                "name":  "peri-peri sauce",
+                                "quantity":  3,
+                                "unit":  "tbsp"
+                            },
+                            {
+                                "name":  "lemon",
+                                "quantity":  1,
+                                "unit":  "piece"
+                            },
+                            {
+                                "name":  "garlic",
+                                "quantity":  2,
+                                "unit":  "clove"
+                            }
+                        ]
+    },
+    {
+        "name":  "Chakalaka",
+        "steps":  "Fry onion and green pepper until soft. Add grated carrot, chopped tomato, mild curry powder and baked beans. Simmer until the vegetables are tender. Serve warm or chilled with pap or bread.",
+        "ingredients":  [
+                            {
+                                "name":  "onion",
+                                "quantity":  1,
+                                "unit":  "piece"
+                            },
+                            {
+                                "name":  "green pepper",
+                                "quantity":  1,
+                                "unit":  "piece"
+                            },
+                            {
+                                "name":  "carrot",
+                                "quantity":  2,
+                                "unit":  "piece"
+                            },
+                            {
+                                "name":  "tomato",
+                                "quantity":  2,
+                                "unit":  "piece"
+                            },
+                            {
+                                "name":  "baked beans",
+                                "quantity":  200,
+                                "unit":  "g"
+                            },
+                            {
+                                "name":  "curry powder",
+                                "quantity":  1,
+                                "unit":  "tsp"
+                            }
+                        ]
+    },
+    {
+        "name":  "Potjiekos Style Beef Stew",
+        "steps":  "Brown the beef in a heavy pot. Layer onion, carrots and potatoes on top without stirring. Add stock, cover and simmer gently until the beef is tender and vegetables are cooked.",
+        "ingredients":  [
+                            {
+                                "name":  "beef",
+                                "quantity":  500,
+                                "unit":  "g"
+                            },
+                            {
+                                "name":  "onion",
+                                "quantity":  1,
+                                "unit":  "piece"
+                            },
+                            {
+                                "name":  "carrot",
+                                "quantity":  2,
+                                "unit":  "piece"
+                            },
+                            {
+                                "name":  "potato",
+                                "quantity":  3,
+                                "unit":  "piece"
+                            },
+                            {
+                                "name":  "beef stock",
+                                "quantity":  300,
+                                "unit":  "ml"
+                            }
+                        ]
+    },
+    {
+        "name":  "Mielie Meal (Pap)",
+        "steps":  "Bring water and salt to a boil. Slowly whisk in maize meal to avoid lumps. Cover and cook on low heat, stirring now and then, until soft and fluffy. Serve with stew or chakalaka.",
+        "ingredients":  [
+                            {
+                                "name":  "maize meal",
+                                "quantity":  250,
+                                "unit":  "g"
+                            },
+                            {
+                                "name":  "water",
+                                "quantity":  600,
+                                "unit":  "ml"
+                            },
+                            {
+                                "name":  "salt",
+                                "quantity":  1,
+                                "unit":  "tsp"
+                            }
+                        ]
+    },
+    {
+        "name":  "Creamy Samp",
+        "steps":  "Rinse samp and soak overnight. Drain, add fresh water and simmer until nearly tender. Stir in milk and butter and cook gently until creamy and soft. Season to taste.",
+        "ingredients":  [
+                            {
+                                "name":  "samp",
+                                "quantity":  250,
+                                "unit":  "g"
+                            },
+                            {
+                                "name":  "milk",
+                                "quantity":  200,
+                                "unit":  "ml"
+                            },
+                            {
+                                "name":  "butter",
+                                "quantity":  30,
+                                "unit":  "g"
+                            }
+                        ]
+    },
+    {
+        "name":  "Dombolo (Steamed Bread)",
+        "steps":  "Mix flour, yeast, warm water and salt into a soft dough. Let it rise until doubled. Shape into a ball, place above a simmering stew in a covered pot and steam until cooked through.",
+        "ingredients":  [
+                            {
+                                "name":  "flour",
+                                "quantity":  400,
+                                "unit":  "g"
+                            },
+                            {
+                                "name":  "yeast",
+                                "quantity":  7,
+                                "unit":  "g"
+                            },
+                            {
+                                "name":  "water",
+                                "quantity":  250,
+                                "unit":  "ml"
+                            },
+                            {
+                                "name":  "salt",
+                                "quantity":  1,
+                                "unit":  "tsp"
+                            }
+                        ]
+    },
+    {
+        "name":  "Mogodu (Tripe Stew)",
+        "steps":  "Rinse the tripe well and cut into pieces. Simmer with onion and water until tender, adding water as needed. Add chopped tomato and curry powder and cook until the sauce thickens. Serve with pap.",
+        "ingredients":  [
+                            {
+                                "name":  "tripe",
+                                "quantity":  600,
+                                "unit":  "g"
+                            },
+                            {
+                                "name":  "onion",
+                                "quantity":  1,
+                                "unit":  "piece"
+                            },
+                            {
+                                "name":  "tomato",
+                                "quantity":  2,
+                                "unit":  "piece"
+                            },
+                            {
+                                "name":  "curry powder",
+                                "quantity":  1,
+                                "unit":  "tsp"
+                            },
+                            {
+                                "name":  "maize meal",
+                                "quantity":  200,
+                                "unit":  "g"
+                            }
+                        ]
+    },
+    {
+        "name":  "Malva Pudding",
+        "steps":  "Beat sugar and egg, then mix in apricot jam, flour and milk. Pour into a greased dish and bake at 180Â°C until golden. Heat cream, butter and sugar together and pour over the hot pudding.",
+        "ingredients":  [
+                            {
+                                "name":  "sugar",
+                                "quantity":  150,
+                                "unit":  "g"
+                            },
+                            {
+                                "name":  "egg",
+                                "quantity":  1,
+                                "unit":  "piece"
+                            },
+                            {
+                                "name":  "apricot jam",
+                                "quantity":  2,
+                                "unit":  "tbsp"
+                            },
+                            {
+                                "name":  "flour",
+                                "quantity":  150,
+                                "unit":  "g"
+                            },
+                            {
+                                "name":  "milk",
+                                "quantity":  120,
+                                "unit":  "ml"
+                            },
+                            {
+                                "name":  "cream",
+                                "quantity":  150,
+                                "unit":  "ml"
+                            },
+                            {
+                                "name":  "butter",
+                                "quantity":  50,
+                                "unit":  "g"
+                            }
+                        ]
+    },
+    {
+        "name":  "Melktert",
+        "steps":  "Line a pie dish with pastry and bake until lightly golden. Heat milk with cinnamon. Whisk egg, sugar and flour, then slowly whisk in the warm milk. Cook until thick, pour into the pastry and dust with cinnamon.",
+        "ingredients":  [
+                            {
+                                "name":  "pastry",
+                                "quantity":  1,
+                                "unit":  "piece"
+                            },
+                            {
+                                "name":  "milk",
+                                "quantity":  500,
+                                "unit":  "ml"
+                            },
+                            {
+                                "name":  "egg",
+                                "quantity":  2,
+                                "unit":  "piece"
+                            },
+                            {
+                                "name":  "sugar",
+                                "quantity":  100,
+                                "unit":  "g"
+                            },
+                            {
+                                "name":  "flour",
+                                "quantity":  30,
+                                "unit":  "g"
+                            },
+                            {
+                                "name":  "cinnamon",
+                                "quantity":  1,
+                                "unit":  "tsp"
+                            }
+                        ]
+    },
+    {
+        "name":  "Koeksisters",
+        "steps":  "Mix flour, baking powder, butter and egg with enough water to make a dough. Roll and braid strips. Fry until golden, then dip immediately into cold sugar syrup and let drain.",
+        "ingredients":  [
+                            {
+                                "name":  "flour",
+                                "quantity":  300,
+                                "unit":  "g"
+                            },
+                            {
+                                "name":  "baking powder",
+                                "quantity":  2,
+                                "unit":  "tsp"
+                            },
+                            {
+                                "name":  "butter",
+                                "quantity":  30,
+                                "unit":  "g"
+                            },
+                            {
+                                "name":  "egg",
+                                "quantity":  1,
+                                "unit":  "piece"
+                            },
+                            {
+                                "name":  "sugar",
+                                "quantity":  200,
+                                "unit":  "g"
+                            },
+                            {
+                                "name":  "cooking oil",
+                                "quantity":  500,
+                                "unit":  "ml"
+                            }
+                        ]
+    },
+    {
+        "name":  "Boerewors and Pap",
+        "steps":  "Cook maize meal in boiling salted water, stirring until smooth and thick. Grill or pan-fry the boerewors until browned and cooked through. Serve together with tomato relish or chakalaka.",
+        "ingredients":  [
+                            {
+                                "name":  "maize meal",
+                                "quantity":  250,
+                                "unit":  "g"
+                            },
+                            {
+                                "name":  "boerewors",
+                                "quantity":  400,
+                                "unit":  "g"
+                            },
+                            {
+                                "name":  "tomato",
+                                "quantity":  2,
+                                "unit":  "piece"
+                            },
+                            {
+                                "name":  "onion",
+                                "quantity":  1,
+                                "unit":  "piece"
+                            }
+                        ]
+    },
+    {
+        "name":  "Cape Malay Yellow Rice",
+        "steps":  "Rinse rice. Add it to a pot with water, turmeric, cinnamon and raisins. Bring to a boil, cover and cook on low heat until the rice is tender and the water is absorbed.",
+        "ingredients":  [
+                            {
+                                "name":  "rice",
+                                "quantity":  200,
+                                "unit":  "g"
+                            },
+                            {
+                                "name":  "turmeric",
+                                "quantity":  1,
+                                "unit":  "tsp"
+                            },
+                            {
+                                "name":  "cinnamon",
+                                "quantity":  1,
+                                "unit":  "tsp"
+                            },
+                            {
+                                "name":  "raisins",
+                                "quantity":  40,
+                                "unit":  "g"
+                            },
+                            {
+                                "name":  "water",
+                                "quantity":  400,
+                                "unit":  "ml"
+                            }
+                        ]
+    }
+]

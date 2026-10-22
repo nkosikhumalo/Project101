@@ -1,25 +1,12 @@
 # Technical Discussion
 
-## 1. Why PostgreSQL Instead of Supabase or SQLite
+## 1. Why SQLite for the Android App
 
-We used PostgreSQL running locally, accessed through a Java REST API. Here is why that made more sense than the other two options for this project.
+The submitted Android app stores pantry items, recipes, and preferences in SQLite on the device. Android includes SQLite, so the app creates its database on first launch and works without a computer-side server, a PostgreSQL installation, Docker, or internet access. This is a practical fit for a single-device pantry app and makes the project easier to build and demonstrate on a machine where Android Studio or server tools are unreliable.
 
-### Why not SQLite?
+The database is managed by `SQLiteOpenHelper` in `Api.java`. Pantry changes are saved in the app's private storage. The 19 starter recipes are bundled in `app/src/main/assets/recipes.json` and loaded when the database is first created. The app sends database work to a background executor so disk reads and writes do not block screen interaction.
 
-SQLite is a file-based database that runs inside the app itself. It is fine for simple, single-device apps where only one user reads and writes data at a time. The problem is that our app has two separate parts — the Android app and the Java backend — and they run in different environments. The backend is on the host machine, and the app is inside an Android emulator. SQLite cannot be shared across a network connection, so it would only work if the database lived on the Android device itself. That would mean no central server, no REST API, and no way to add multi-device support later.
-
-### Why not Supabase?
-
-Supabase is a hosted service that wraps PostgreSQL and gives you a REST API automatically. It sounds convenient, but it has a few problems for this project. First, it requires an internet connection and a Supabase account, which adds an external dependency we do not control. If the Supabase service is down or the free tier has rate limits, the app breaks. Second, our brief asked us to build a backend ourselves, so using Supabase would skip the part of the work that demonstrates how the API layer functions. Third, running everything locally means no latency from an external server and no risk of network issues during a demo or assessment.
-
-### Why PostgreSQL?
-
-PostgreSQL runs on the same machine as the backend. The Java API connects to it using a JDBC URL (`jdbc:postgresql://127.0.0.1:5432/smartpantry` — `Server.java` line 22), which means the database is always available as long as the local server is running. PostgreSQL also enforces proper constraints — for example, the `CHECK(quantity > 0)` rule in `schema.sql` line 2 means invalid data cannot be inserted even if someone bypasses the API. It supports `JSONB` for storing recipe ingredients as a structured array inside a single column, and it handles concurrent requests safely, which matters because `Server.java` runs eight threads in parallel (line 40: `Executors.newFixedThreadPool(8)`).
-
-In short: SQLite cannot be shared over a network, Supabase adds an external dependency we do not control, and PostgreSQL gives us full control, proper constraints, and runs entirely locally.
-
----
-
+The `backend/` folder still contains a separate Java REST API backed by PostgreSQL. That version shows how a central service could support multiple clients, but the Android app no longer depends on it. PostgreSQL is a better fit if the application later needs shared data across devices, server-side administration, or centralized backups. A hosted service such as Supabase could provide similar sharing, but would add an account and internet-service dependency.
 ## 2. How the Activity Lifecycle Works in This App
 
 Android activities are not always running. The system starts them, pauses them, and destroys them as the user moves around the app. Understanding this is important because it affects when data loads and when memory gets freed.
